@@ -41,7 +41,7 @@ bot.on("message", (data) => {
 					continue;
 				}
 				++count;
-				rep += count + "\t" + room.name.split('$', 2)[0] + "\t"
+				rep += count + "   " + room.name.split('$', 2)[0] + "   "
 				var player_slot = [];
 				for (var player of room.get_playing_player()) { 
 					player_slot[player.pos] = player;
