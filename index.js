@@ -59,7 +59,7 @@ bot.on("message", (data) => {
 		}
 		case ":testcard": {
 			const code = parsed_msg[1];
-			if (!code && !parseInt(code)) { 
+			if (!code || !parseInt(code)) { 
 				reply(data, "输入 :testcard 卡号 测试卡片红字。");
 				break;
 			}
@@ -70,7 +70,7 @@ bot.on("message", (data) => {
 			if (!result || !result.length) {
 				reply(data, "卡片 " + code + " 没有红字。");
 			} else { 
-				reply(data, "卡片 " + code + " 有红字。\n"+result);
+				reply(data, "卡片 " + code + " 有红字，请尽快修复。\n"+result);
 			}
 			break;
 		}
