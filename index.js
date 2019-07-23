@@ -6,19 +6,21 @@ const bot = new CQHttp(config.launch);
 function reply(data, rep) { 
 	var send_data = {
 		message: rep,
-		message_type: data.message_type
 	};
 	switch (data.message_type) { 
 		case "group": { 
 			send_data.group_id = data.group_id;
+			bot("send_group_msg", send_data);
 			break;
 		}
 		case "private": { 
 			send_data.user_id = data.user_id;
+			bot("send_private_msg", send_data);
 			break;
 		}
 		case "discuss": { 
 			send_data.discuss_id = data.discuss_id;
+			bot("send_discuss_msg", send_data);
 			break;
 		}
 	}
