@@ -59,7 +59,7 @@ bot.on("message", (data) => {
 		}
 		case ":testcard": {
 			const code = parsed_msg[1];
-			if (!code) { 
+			if (!code && !parseInt(code)) { 
 				reply(data, "输入 :testcard 卡号 测试卡片红字。");
 				break;
 			}
