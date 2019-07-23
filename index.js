@@ -24,7 +24,7 @@ function reply(data, rep) {
 			break;
 		}
 	}
-	bot("send_msg", send_data);
+	//bot("send_msg", send_data);
 }
 
 bot.on("message", (data) => { 
