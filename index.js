@@ -31,7 +31,7 @@ bot.on("message", (data) => {
 	const msg = data.message;
 	const parsed_msg = msg.split(" ");
 	switch (parsed_msg[0]) { 
-		case "/roomlist": { 
+		case ":roomlist": { 
 			var rep = "房间列表：\n";
 			var count = 0;
 			for (var room of ROOM_all) { 
