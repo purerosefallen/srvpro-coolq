@@ -6,7 +6,7 @@ const bot = new CQHttp(config.launch);
 function reply(data, rep) { 
 	var send_data = {
 		message: rep,
-		message_type: data.message_type;
+		message_type: data.message_type
 	};
 	switch (data.message_type) { 
 		case "group": { 
