@@ -35,19 +35,19 @@ bot.on("message", (data) => {
 			var rep = "房间列表：\n";
 			var count = 0;
 			for (var room of ROOM_all) { 
-				++count;
 				if (!room || !room.established) { 
 					continue;
 				}
+				++count;
 				rep += count + "\t" + room.name.split('$', 2)[0] + "\t"
 				var player_slot = [];
 				for (var player in room.get_playing_player()) { 
-					player_slot[player.pos] = player.name;
+					player_slot[player.pos] = player;
 				}
 				if (room.hostinfo.mode === 2) {
-					rep += (player_slot[0] || "???") + " & " + (player_slot[1] || "???") + " VS " + (player_slot[2] || "???") + " & " + (player_slot[3] || "???");
+					rep += (player_slot[0] ? player_slot[0].name : "???") + " & " + (player_slot[1] ? player_slot[1].name : "???") + " VS " + (player_slot[2] ? player_slot[2].name : "???") + " & " + (player_slot[3] ? player_slot[3].name : "???");
 				} else { 
-					rep += (player_slot[0] || "???") + " VS " + (player_slot[1] || "???");
+					rep += (player_slot[0] ? player_slot[0].name : "???") + " VS " + (player_slot[1] ? player_slot[1].name : "???");
 				}
 				rep += "\n"
 			}
