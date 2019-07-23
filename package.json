@@ -1,0 +1,27 @@
+{
+  "name": "srvpro-coolq",
+  "version": "1.0.0",
+  "description": "A plugin for SRVPro using CoolQ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purerosefallen/srvpro-coolq.git"
+  },
+  "keywords": [
+    "srvpro",
+    "ygopro",
+    "coolq"
+  ],
+  "author": "Nanahira",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/purerosefallen/srvpro-coolq/issues"
+  },
+  "homepage": "https://github.com/purerosefallen/srvpro-coolq#readme",
+  "dependencies": {
+    "cqhttp": "^1.1.1"
+  }
+}

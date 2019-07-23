@@ -1,0 +1,60 @@
+const CQHttp = require('cqhttp');
+const config = require("./config.json");
+
+const bot = new CQHttp(config.launch);
+
+function reply(data, rep) { 
+	var send_data = {
+		message: rep,
+		message_type: data.message_type;
+	};
+	switch (data.message_type) { 
+		case "group": { 
+			send_data.group_id = data.group_id;
+			break;
+		}
+		case "private": { 
+			send_data.user_id = data.user_id;
+			break;
+		}
+		case "discuss": { 
+			send_data.discuss_id = data.discuss_id;
+			break;
+		}
+	}
+	bot("send_msg", send_data);
+}
+
+bot.on("message", (data) => { 
+	if (!(data.group_id && config.allowed_ids.indexOf(data.group_id) != -1 || data.user_id && config.allowed_ids.indexOf(data.user_id) != -1))
+		return;
+	const msg = data.message;
+	const parsed_msg = msg.split(" ");
+	switch (parsed_msg[0]) { 
+		case "/roomlist": { 
+			var rep = "房间列表：\n";
+			var count = 0;
+			for (var room of ROOM_all) { 
+				++count;
+				if (!room || !room.established) { 
+					continue;
+				}
+				rep += count + "\t" + room.name.split('$', 2)[0] + "\t"
+				var player_slot = [];
+				for (var player in room.get_playing_player()) { 
+					player_slot[player.pos] = player.name;
+				}
+				if (room.hostinfo.mode === 2) {
+					rep += (player_slot[0] || "???") + " & " + (player_slot[1] || "???") + " VS " + (player_slot[2] || "???") + " & " + (player_slot[3] || "???");
+				} else { 
+					rep += (player_slot[0] || "???") + " VS " + (player_slot[1] || "???");
+				}
+				rep += "\n"
+			}
+			reply(data, rep);
+			break;
+		}
+	}
+});
+
+bot.listen(config.port, config.address);
