@@ -1,4 +1,5 @@
 const CQHttp = require('cqhttp');
+const spawnSync = require('child_process').spawnSync;
 const config = require("./config.json");
 
 const bot = new CQHttp(config.launch);
@@ -54,6 +55,23 @@ bot.on("message", (data) => {
 				rep += "\n"
 			}
 			reply(data, rep);
+			break;
+		}
+		case ":testcard": {
+			const code = parsed_msg[1];
+			if (!code) { 
+				reply(data, "输入 :testcard 卡号 测试卡片红字。");
+				break;
+			}
+			const output = spawnSync("./ygopro", [code], {
+				cwd: "./ygopro"
+			});
+			const result = output.stderr;
+			if (!result || !result.length) {
+				reply(data, "卡片 " + code + " 没有红字。");
+			} else { 
+				reply(data, "卡片 " + code + " 有红字。\n"+result);
+			}
 			break;
 		}
 	}
