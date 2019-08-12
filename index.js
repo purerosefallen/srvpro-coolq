@@ -32,6 +32,45 @@ function reply(data, rep) {
 function send_help(data) { 
 	reply(data, "输入 :help 查看本帮助。\n输入 :roomlist 查看房间列表。\n输入 :testcard 卡号 测试卡片红字。");
 }
+function get_roomlist(data) { 
+	var rep = "房间列表：\n";
+	var count = 0;
+	for (var room of ROOM_all) { 
+		if (!room || !room.established) { 
+			continue;
+		}
+		++count;
+		rep += count + "   " + room.name.split('$', 2)[0] + "   "
+		var player_slot = [];
+		for (var player of room.get_playing_player()) { 
+			player_slot[player.pos] = player;
+		}
+		if (room.hostinfo.mode === 2) {
+			rep += (player_slot[0] ? player_slot[0].name : "???") + " & " + (player_slot[1] ? player_slot[1].name : "???") + " VS " + (player_slot[2] ? player_slot[2].name : "???") + " & " + (player_slot[3] ? player_slot[3].name : "???");
+		} else { 
+			rep += (player_slot[0] ? player_slot[0].name : "???") + " VS " + (player_slot[1] ? player_slot[1].na本me : "???");
+		}
+		rep += "\n"
+	}
+	reply(data, rep);
+}
+
+function test_card(data, parsed_msg) { 
+	const code = parsed_msg[1];
+	if (!code || !parseInt(code)) { 
+		send_help(data);
+		break;
+	}
+	const output = spawnSync("./ygopro", [code], {
+		cwd: "./ygopro"
+	});
+	const result = output.stderr;
+	if (!result || !result.length) {
+		reply(data, "卡片 " + code + " 没有红字。");
+	} else { 
+		reply(data, "卡片 " + code + " 有红字，请尽快修复。\n"+result);
+	}
+}
 
 bot.on("message", (data) => { 
 	if (!(data.group_id && config.allowed_ids.indexOf(data.group_id) != -1 || data.user_id && config.allowed_ids.indexOf(data.user_id) != -1))
@@ -43,43 +82,11 @@ bot.on("message", (data) => {
 	}
 	switch (parsed_msg[0]) { 
 		case ":roomlist": { 
-			var rep = "房间列表：\n";
-			var count = 0;
-			for (var room of ROOM_all) { 
-				if (!room || !room.established) { 
-					continue;
-				}
-				++count;
-				rep += count + "   " + room.name.split('$', 2)[0] + "   "
-				var player_slot = [];
-				for (var player of room.get_playing_player()) { 
-					player_slot[player.pos] = player;
-				}
-				if (room.hostinfo.mode === 2) {
-					rep += (player_slot[0] ? player_slot[0].name : "???") + " & " + (player_slot[1] ? player_slot[1].name : "???") + " VS " + (player_slot[2] ? player_slot[2].name : "???") + " & " + (player_slot[3] ? player_slot[3].name : "???");
-				} else { 
-					rep += (player_slot[0] ? player_slot[0].name : "???") + " VS " + (player_slot[1] ? player_slot[1].na本me : "???");
-				}
-				rep += "\n"
-			}
-			reply(data, rep);
+			get_roomlist(data);
 			break;
 		}
 		case ":testcard": {
-			const code = parsed_msg[1];
-			if (!code || !parseInt(code)) { 
-				send_help(data);
-				break;
-			}
-			const output = spawnSync("./ygopro", [code], {
-				cwd: "./ygopro"
-			});
-			const result = output.stderr;
-			if (!result || !result.length) {
-				reply(data, "卡片 " + code + " 没有红字。");
-			} else { 
-				reply(data, "卡片 " + code + " 有红字，请尽快修复。\n"+result);
-			}
+			test_card(data, parsed_msg);
 			break;
 		}
 		default: { 
