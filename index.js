@@ -29,6 +29,10 @@ function reply(data, rep) {
 	bot("send_msg", send_data);
 }
 
+function send_help(data) { 
+	reply(data, "输入 :help 查看本帮助。\n输入 :roomlist 查看房间列表。\n输入 :testcard 卡号 测试卡片红字。");
+}
+
 bot.on("message", (data) => { 
 	if (!(data.group_id && config.allowed_ids.indexOf(data.group_id) != -1 || data.user_id && config.allowed_ids.indexOf(data.user_id) != -1))
 		return;
@@ -61,7 +65,7 @@ bot.on("message", (data) => {
 		case ":testcard": {
 			const code = parsed_msg[1];
 			if (!code || !parseInt(code)) { 
-				reply(data, "输入 :testcard 卡号 测试卡片红字。");
+				send_help(data);
 				break;
 			}
 			const output = spawnSync("./ygopro", [code], {
@@ -73,6 +77,10 @@ bot.on("message", (data) => {
 			} else { 
 				reply(data, "卡片 " + code + " 有红字，请尽快修复。\n"+result);
 			}
+			break;
+		}
+		case ":help": { 
+			send_help(data);
 			break;
 		}
 	}
