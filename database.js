@@ -60,6 +60,7 @@ this.format_name_and_code = (card) => {
 	return card.nthis.format_name_and_codeame + "(" + card.id + ")";
 }
 
+/*
 this.format_all = (card) => { 
 	var ret = this.format_name_and_code(card) + "\n";
 	if (result.type & ygopro.constants.TYPES.TYPE_MONSTER) {
@@ -74,9 +75,10 @@ this.format_all = (card) => {
 			result.RScale = parseInt(levelHex.slice(-6, -4), 16);
 		}
 	} else { 
-		
+
 	}
 	ret += "\n";
 	ret += card.desc;
 	return ret;
 }
+*/
