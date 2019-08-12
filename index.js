@@ -109,15 +109,18 @@ bot.on("message", (data) => {
 		return;
 	}
 	switch (parsed_msg[0]) { 
-		case ":roomlist":
+		case ":roomlist": { 
 			get_roomlist(data);
 			break;
-		case ":testcard":
+		}
+		case ":testcard": {
 			test_card(data, parsed_msg);
 			break;
-		default:
+		}
+		default: { 
 			send_help(data);
 			break;
+		}
 	}
 });
 load_databases();
