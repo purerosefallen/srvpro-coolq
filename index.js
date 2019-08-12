@@ -1,8 +1,11 @@
+"use strict";
 const CQHttp = require('cqhttp');
 const spawnSync = require('child_process').spawnSync;
+const fs = require("fs");
 const config = require("./config.json");
 
 const bot = new CQHttp(config.launch);
+const db = require('./database.js');
 
 function reply(data, rep) { 
 	var send_data = {
@@ -27,6 +30,25 @@ function reply(data, rep) {
 		}
 	}*/
 	bot("send_msg", send_data);
+}
+
+function load_databases() { 
+	db.load("./ygopro/cards.cdb");
+	if (fs.existsSync("./ygopro/expansions")) { 
+		fs.readdir("./ygopro/expansions", (err, list) => {
+			if (err) {
+				log.warn("srvpro-coolq:", "Failed reading expansions folder.", err);
+			} else {
+				for (var file of list) { 
+					if (!file.endsWith(".cdb")) { 
+						continue;
+					}
+					const path = "./ygopro/expansions/" + file;
+					db.load(path);
+				}
+			}
+		});
+	}
 }
 
 function send_help(data) { 
@@ -56,19 +78,25 @@ function get_roomlist(data) {
 }
 
 function test_card(data, parsed_msg) { 
-	const code = parsed_msg[1];
-	if (!code || !parseInt(code)) { 
+	const info = parsed_msg[1];
+	if (!info) { 
 		send_help(data);
 		break;
 	}
+	const card = db.query_card(info);
+	if (!card) { 
+		reply(data, "卡片 " + info + " 未找到。");
+		return;
+	}
+	const code = card.id;
 	const output = spawnSync("./ygopro", [code], {
 		cwd: "./ygopro"
 	});
 	const result = output.stderr;
 	if (!result || !result.length) {
-		reply(data, "卡片 " + code + " 没有红字。");
+		reply(data, "卡片 " + db.format_name_and_code(card) + " 没有红字。");
 	} else { 
-		reply(data, "卡片 " + code + " 有红字，请尽快修复。\n"+result);
+		reply(data, "卡片 " + db.format_name_and_code(card) + " 有红字，请尽快修复。\n"+result);
 	}
 }
 
@@ -95,5 +123,5 @@ bot.on("message", (data) => {
 		}
 	}
 });
-
+load_databases();
 bot.listen(config.port, config.address);
