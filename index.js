@@ -81,7 +81,7 @@ function test_card(data, parsed_msg) {
 	const info = parsed_msg[1];
 	if (!info) { 
 		send_help(data);
-		break;
+		return;
 	}
 	const card = db.query_card(info);
 	if (!card) { 
