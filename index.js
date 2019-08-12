@@ -38,6 +38,9 @@ bot.on("message", (data) => {
 		return;
 	const msg = data.message;
 	const parsed_msg = msg.split(" ");
+	if (!parsed_msg[0].startsWith(":")) { 
+		return;
+	}
 	switch (parsed_msg[0]) { 
 		case ":roomlist": { 
 			var rep = "房间列表：\n";
@@ -55,7 +58,7 @@ bot.on("message", (data) => {
 				if (room.hostinfo.mode === 2) {
 					rep += (player_slot[0] ? player_slot[0].name : "???") + " & " + (player_slot[1] ? player_slot[1].name : "???") + " VS " + (player_slot[2] ? player_slot[2].name : "???") + " & " + (player_slot[3] ? player_slot[3].name : "???");
 				} else { 
-					rep += (player_slot[0] ? player_slot[0].name : "???") + " VS " + (player_slot[1] ? player_slot[1].name : "???");
+					rep += (player_slot[0] ? player_slot[0].name : "???") + " VS " + (player_slot[1] ? player_slot[1].na本me : "???");
 				}
 				rep += "\n"
 			}
@@ -79,7 +82,7 @@ bot.on("message", (data) => {
 			}
 			break;
 		}
-		case ":help": { 
+		default: { 
 			send_help(data);
 			break;
 		}
