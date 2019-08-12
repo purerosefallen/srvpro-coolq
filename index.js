@@ -6,9 +6,10 @@ const bot = new CQHttp(config.launch);
 
 function reply(data, rep) { 
 	var send_data = {
+		...data,
 		message: rep,
 	};
-	switch (data.message_type) { 
+	/*switch (data.message_type) { 
 		case "group": { 
 			send_data.group_id = data.group_id;
 			bot("send_group_msg", send_data);
@@ -24,8 +25,8 @@ function reply(data, rep) {
 			bot("send_discuss_msg", send_data);
 			break;
 		}
-	}
-	//bot("send_msg", send_data);
+	}*/
+	bot("send_msg", send_data);
 }
 
 bot.on("message", (data) => { 
