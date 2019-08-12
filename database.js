@@ -57,7 +57,7 @@ this.format_name_and_code = (card) => {
 	if (!card) { 
 		return "";
 	}
-	return card.nthis.format_name_and_codeame + "(" + card.id + ")";
+	return card.name + "(" + card.id + ")";
 }
 
 /*
