@@ -1,2 +1,3 @@
 # srvpro-coolq
-A plugin for SRVPro using CoolQ
+
+A QQ bot for SRVPro room list or card testing, using CoolQ HTTP SDK.
