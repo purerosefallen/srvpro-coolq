@@ -51,6 +51,23 @@ function load_databases() {
 	}
 }
 
+function concat_name(name, num) {
+	if (!name[num]) {
+		return null;
+	}
+	var res = name[num];
+	var count = num + 1;
+	while (true) {
+		const temp = name[count];
+		if (!temp) {
+			break;
+		}
+		res = res + " " + temp;
+		++count;
+	}
+	return res;
+  }
+
 function send_help(data) { 
 	reply(data, "输入 :help 查看本帮助。\n输入 :roomlist 查看房间列表。\n输入 :testcard 卡号 测试卡片红字。");
 }
@@ -78,7 +95,7 @@ function get_roomlist(data) {
 }
 
 function test_card(data, parsed_msg) { 
-	const info = parsed_msg[1];
+	const info = concat_name(parsed_msg, 1);
 	if (!info) { 
 		send_help(data);
 		return;
