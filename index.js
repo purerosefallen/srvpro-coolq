@@ -8,7 +8,7 @@ const bot = new CQHttp(config.launch);
 const db = require('./database.js');
 
 function reply(data, rep) { 
-	var send_data = {
+	const send_data = {
 		...data,
 		message: rep,
 	};
