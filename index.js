@@ -87,7 +87,7 @@ function get_roomlist(data) {
 		if (room.hostinfo.mode === 2) {
 			rep += (player_slot[0] ? player_slot[0].name : "???") + " & " + (player_slot[1] ? player_slot[1].name : "???") + " VS " + (player_slot[2] ? player_slot[2].name : "???") + " & " + (player_slot[3] ? player_slot[3].name : "???");
 		} else { 
-			rep += (player_slot[0] ? player_slot[0].name : "???") + " VS " + (player_slot[1] ? player_slot[1].na本me : "???");
+			rep += (player_slot[0] ? player_slot[0].name : "???") + " VS " + (player_slot[1] ? player_slot[1].name : "???");
 		}
 		rep += "\n"
 	}
